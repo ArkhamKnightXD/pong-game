@@ -12,6 +12,9 @@ public class PongGame extends Game {
 
 	public SpriteBatch batch;
 
+	private int screenWidth;
+	private int screenHeight;
+
 	public PongGame() {
 
 		INSTANCE = this;
@@ -20,8 +23,8 @@ public class PongGame extends Game {
 	@Override
 	public void create () {
 
-		int screenWidth = Gdx.graphics.getWidth();
-		int screenHeight = Gdx.graphics.getHeight();
+		screenWidth = Gdx.graphics.getWidth();
+		screenHeight = Gdx.graphics.getHeight();
 
 		batch = new SpriteBatch();
 
@@ -30,6 +33,11 @@ public class PongGame extends Game {
 		
 		setScreen(new GameScreen(globalCamera));
 	}
+
+
+	public int getScreenWidth() { return screenWidth; }
+
+	public int getScreenHeight() { return screenHeight; }
 
 
 	public void render () { super.render(); }
