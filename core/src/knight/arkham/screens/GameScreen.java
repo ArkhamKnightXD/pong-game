@@ -12,15 +12,14 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.PongGame;
+import knight.arkham.objects.Player;
 import java.awt.*;
 
 public class GameScreen extends ScreenAdapter {
 
     private final PongGame game = PongGame.INSTANCE;
 
-    private final Texture img;
-
-    private final Rectangle player;
+    private final Rectangle rectangle;
 
     private final Rectangle cpuPlayer;
 
@@ -37,16 +36,17 @@ public class GameScreen extends ScreenAdapter {
     //Siempre que se utiliza World esta variable es necesaria para poder realizar debug de nuestro world
     private final Box2DDebugRenderer box2DDebugRenderer;
 
-    public GameScreen(OrthographicCamera globalCamera) {
+    //player
+    private Player player;
 
-        img = new Texture("badlogic.jpg");
+    public GameScreen(OrthographicCamera globalCamera) {
 
         camera = globalCamera;
 
         //seteando la posicion que tendra nuestra camara
         camera.position.set(new Vector3(game.getScreenWidth()/2, game.getScreenHeight()/2, 0));
 
-        player = new Rectangle(0,0,128,128);
+        rectangle = new Rectangle(0,0,128,128);
         cpuPlayer = new Rectangle(832,0,128,128);
 
         isCpuPlayerUp = true;
@@ -59,6 +59,10 @@ public class GameScreen extends ScreenAdapter {
         //por ahora seran 0
         gameWorld = new World(new Vector2(0,0), false);
         box2DDebugRenderer = new Box2DDebugRenderer();
+
+        //instanciamos nuestro player, con la posicion que deseamos que tenga, dividimos la altura para asi colocar
+        //el player en la mitad de la pantalla
+        player = new Player(16, game.INSTANCE.getScreenHeight() /2, this);
     }
 
     //Creare un metodo update igual que en unity donde manejare la actualizacion de los objetos y lo llamare en render
@@ -69,9 +73,11 @@ public class GameScreen extends ScreenAdapter {
 
 //        cameraUpdate();
 
+        //actualizamos nuestro player
+        player.updatePlayer();
+
         //camera combined envia la Camera's view and projection matrices.
         game.batch.setProjectionMatrix(camera.combined);
-
 
         //cerrara el juego cuando se presione la tecla escape
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
@@ -91,8 +97,11 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        game.batch.draw(img, player.x, player.y, player.width, player.height);
-        game.batch.draw(img, cpuPlayer.x, cpuPlayer.y, cpuPlayer.width, cpuPlayer.height);
+//        game.batch.draw(img, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+//        game.batch.draw(img, cpuPlayer.x, cpuPlayer.y, cpuPlayer.width, cpuPlayer.height);
+
+        //Aqui renderizamos nuestro player
+        player.renderPlayer(game.batch);
 
         game.batch.end();
 
@@ -100,24 +109,24 @@ public class GameScreen extends ScreenAdapter {
         //Aqui le paso el world y la camara combined e indico la escala de pixeles
 //        box2DDebugRenderer.render(gameWorld, camera.combined.scl(PIXELSPERMETER));
 
-        playerMovement();
-        cpuPlayerMovement();
+//        playerMovement();
+//        cpuPlayerMovement();
     }
 
 
     private void playerMovement() {
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP))
-            player.y += playerSpeed * Gdx.graphics.getDeltaTime();
+            rectangle.y += playerSpeed * Gdx.graphics.getDeltaTime();
 
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            player.y -= playerSpeed * Gdx.graphics.getDeltaTime();
+            rectangle.y -= playerSpeed * Gdx.graphics.getDeltaTime();
 
-        if(player.y < 0)
-            player.y = 0;
+        if(rectangle.y < 0)
+            rectangle.y = 0;
 
-        if(player.y > 512)
-            player.y = 512;
+        if(rectangle.y > 512)
+            rectangle.y = 512;
     }
 
 
@@ -156,11 +165,14 @@ public class GameScreen extends ScreenAdapter {
     }
 
 
+    public World getGameWorld() {
+        return gameWorld;
+    }
+
     @Override
     public void dispose() {
 
         gameWorld.dispose();
-        img.dispose();
         gameMusic.dispose();
     }
 }
