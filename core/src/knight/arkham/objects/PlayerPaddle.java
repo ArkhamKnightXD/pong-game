@@ -9,7 +9,7 @@ import knight.arkham.helpers.ContactType;
 import knight.arkham.screens.GameScreen;
 
 //En el package de objects establecere todos los objectos referentes a mis entidades del juego, por ejemplo jugador o enemigos
-//esta clase sera luego extendidas por mis clases
+//esta clase sera luego extendidas por mis clases jugadores
 public abstract class PlayerPaddle {
 
     //Este sera el box2d del jugador
@@ -61,7 +61,7 @@ public abstract class PlayerPaddle {
     }
 
 
-    public void renderPlayer (SpriteBatch batch){
+    public void renderPlayer(SpriteBatch batch){
 
         batch.draw(playerTexture, positionX, positionY, width, height);
     }

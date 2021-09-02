@@ -5,13 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.PongGame;
+import knight.arkham.helpers.Constants;
+import knight.arkham.objects.Ball;
 import knight.arkham.objects.Player;
 import java.awt.*;
 
@@ -39,12 +40,14 @@ public class GameScreen extends ScreenAdapter {
     //player
     private Player player;
 
+    private Ball ball;
+
     public GameScreen(OrthographicCamera globalCamera) {
 
         camera = globalCamera;
 
         //seteando la posicion que tendra nuestra camara
-        camera.position.set(new Vector3(game.getScreenWidth()/2, game.getScreenHeight()/2, 0));
+        camera.position.set(new Vector3(Constants.MIDSCREENWIDTH, Constants.MIDSCREENHEIGHT, 0));
 
         rectangle = new Rectangle(0,0,128,128);
         cpuPlayer = new Rectangle(832,0,128,128);
@@ -62,7 +65,9 @@ public class GameScreen extends ScreenAdapter {
 
         //instanciamos nuestro player, con la posicion que deseamos que tenga, dividimos la altura para asi colocar
         //el player en la mitad de la pantalla
-        player = new Player(16, game.INSTANCE.getScreenHeight() /2, this);
+        player = new Player(16, Constants.MIDSCREENHEIGHT, this);
+
+        ball = new Ball(this);
     }
 
     //Creare un metodo update igual que en unity donde manejare la actualizacion de los objetos y lo llamare en render
@@ -76,8 +81,15 @@ public class GameScreen extends ScreenAdapter {
         //actualizamos nuestro player
         player.updatePlayer();
 
+        ball.updateBallPosition();
+
         //camera combined envia la Camera's view and projection matrices.
         game.batch.setProjectionMatrix(camera.combined);
+
+        //si presionamos r la pelota resetea su posicion, isKeyJustPressed es mas preciso que iskeypressed
+        //el otro verifica la pulsacion muchas mas veces que este
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R))
+            ball.resetBallPosition();
 
         //cerrara el juego cuando se presione la tecla escape
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
@@ -102,6 +114,8 @@ public class GameScreen extends ScreenAdapter {
 
         //Aqui renderizamos nuestro player
         player.renderPlayer(game.batch);
+
+        ball.renderBall(game.batch);
 
         game.batch.end();
 
@@ -168,6 +182,7 @@ public class GameScreen extends ScreenAdapter {
     public World getGameWorld() {
         return gameWorld;
     }
+
 
     @Override
     public void dispose() {
