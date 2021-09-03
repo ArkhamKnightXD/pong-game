@@ -27,8 +27,8 @@ public class Ball {
 
     public Ball(GameScreen gameScreen) {
 
-        this.positionX = Constants.MIDSCREENWIDTH;
-        this.positionY = Constants.MIDSCREENHEIGHT;
+        this.positionX = Constants.MID_SCREEN_WIDTH;
+        this.positionY = Constants.MID_SCREEN_HEIGHT;
         this.speed = 5;
         this.width = 32;
         this.height = 32;
@@ -47,6 +47,8 @@ public class Ball {
     }
 
 
+    public float getPositionY() { return positionY; }
+
     //funcion que se encargara de enviar la pelota en una direccion diferente siempre
     private float getRandomDirection(){
 
@@ -58,11 +60,24 @@ public class Ball {
     //y los metodos render dentro del metodo render dentro del spritebatch
     public void updateBallPosition(){
 
-        positionX = body.getPosition().x * Constants.PIXELSPERMETER - (width / 2);
-        positionY = body.getPosition().y * Constants.PIXELSPERMETER - (height / 2);
+        positionX = body.getPosition().x * Constants.PIXELS_PER_METER - (width / 2);
+        positionY = body.getPosition().y * Constants.PIXELS_PER_METER - (height / 2);
 
         //seteo la velocidad aqui ya que esta clase no hereda de otra o hereda hacia otra
         this.body.setLinearVelocity(velocityX * speed, velocityY * speed);
+
+        //score
+        if (positionX < 0){
+
+            gameScreen.getEnemyPlayer().score += 1;
+            resetBallPosition();
+        }
+
+        if (positionX > game.getScreenWidth()){
+
+            gameScreen.getPlayer().score += 1;
+            resetBallPosition();
+        }
     }
 
 
@@ -75,12 +90,30 @@ public class Ball {
         this.speed = 5;
 
         //seteo la position de la bola en la mitad de la pantalla, mediante transform, es como el transform de unity
-        this.body.setTransform(Constants.MIDSCREENWIDTH / Constants.PIXELSPERMETER, Constants.MIDSCREENHEIGHT / Constants.PIXELSPERMETER, 0);
+        this.body.setTransform(Constants.MID_SCREEN_WIDTH / Constants.PIXELS_PER_METER, Constants.MID_SCREEN_HEIGHT / Constants.PIXELS_PER_METER, 0);
     }
 
 
     public void renderBall(SpriteBatch batch){
 
         batch.draw(ballTexture, positionX, positionY, width, height);
+    }
+
+
+    public void reverseVelocityX(){
+
+        velocityX *= -1;
+    }
+
+
+    public void reverseVelocityY(){
+
+        velocityY *= -1;
+    }
+
+
+    public void incrementSpeed(){
+
+        velocityX *= 1.1f;
     }
 }

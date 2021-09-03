@@ -13,7 +13,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.PongGame;
 import knight.arkham.helpers.Constants;
 import knight.arkham.objects.Ball;
+import knight.arkham.objects.EnemyPlayer;
 import knight.arkham.objects.Player;
+import knight.arkham.objects.Wall;
 import java.awt.*;
 
 public class GameScreen extends ScreenAdapter {
@@ -39,15 +41,20 @@ public class GameScreen extends ScreenAdapter {
 
     //player
     private Player player;
+    private EnemyPlayer enemyPlayer;
 
     private Ball ball;
+
+    //creamos dos objetos pared una para la parte de arriba y otra para la de abajo
+    private Wall wallTop;
+    private Wall wallBottom;
 
     public GameScreen(OrthographicCamera globalCamera) {
 
         camera = globalCamera;
 
         //seteando la posicion que tendra nuestra camara
-        camera.position.set(new Vector3(Constants.MIDSCREENWIDTH, Constants.MIDSCREENHEIGHT, 0));
+        camera.position.set(new Vector3(Constants.MID_SCREEN_WIDTH, Constants.MID_SCREEN_HEIGHT, 0));
 
         rectangle = new Rectangle(0,0,128,128);
         cpuPlayer = new Rectangle(832,0,128,128);
@@ -65,9 +72,13 @@ public class GameScreen extends ScreenAdapter {
 
         //instanciamos nuestro player, con la posicion que deseamos que tenga, dividimos la altura para asi colocar
         //el player en la mitad de la pantalla
-        player = new Player(16, Constants.MIDSCREENHEIGHT, this);
+        player = new Player(16, Constants.MID_SCREEN_HEIGHT, this);
+        enemyPlayer = new EnemyPlayer(game.getScreenWidth() - 16, Constants.MID_SCREEN_HEIGHT, this);
 
         ball = new Ball(this);
+
+        wallBottom = new Wall(32, this);
+        wallTop = new Wall(game.getScreenHeight() - 32, this);
     }
 
     //Creare un metodo update igual que en unity donde manejare la actualizacion de los objetos y lo llamare en render
@@ -76,14 +87,16 @@ public class GameScreen extends ScreenAdapter {
         //el 1/60 es porque el juego corre a 60fps, jugare con los valores luego que no se para que sirven
         gameWorld.step(1/60f, 6, 2);
 
-//        cameraUpdate();
+        //camera.update debe ir antes de los metodos update de mis objetos, eso creo
+        camera.update();
 
         //actualizamos nuestro player
-        player.updatePlayer();
+        player.update();
+        enemyPlayer.update();
 
         ball.updateBallPosition();
 
-        //camera combined envia la Camera's view and projection matrices.
+        //camera combined envia la Camera's view and projection matrices., este metodo debe ir despues de camera.update
         game.batch.setProjectionMatrix(camera.combined);
 
         //si presionamos r la pelota resetea su posicion, isKeyJustPressed es mas preciso que iskeypressed
@@ -109,38 +122,25 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-//        game.batch.draw(img, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-//        game.batch.draw(img, cpuPlayer.x, cpuPlayer.y, cpuPlayer.width, cpuPlayer.height);
-
-        //Aqui renderizamos nuestro player
+        //Aqui renderizamos nuestro objetos
         player.renderPlayer(game.batch);
+        enemyPlayer.renderPlayer(game.batch);
 
         ball.renderBall(game.batch);
+
+        wallTop.render(game.batch);
+        wallBottom.render(game.batch);
 
         game.batch.end();
 
         //se recomienda llamar el debugrenderer despues del batch.end
-        //Aqui le paso el world y la camara combined e indico la escala de pixeles
-//        box2DDebugRenderer.render(gameWorld, camera.combined.scl(PIXELSPERMETER));
+        //Aqui le paso el world y la camara combined esto lo utilizare para hacer debug de los elementos box2d creados
+        //establecemos escala, porque sino se veria muy pequeño el debug, para hacer debug correctamente
+        //debemos de comentar todos los elementos que deseemos debug en el spritebatch estos deben de tener box 2d obviamente
+        box2DDebugRenderer.render(gameWorld, camera.combined.scl(Constants.PIXELS_PER_METER));
 
 //        playerMovement();
 //        cpuPlayerMovement();
-    }
-
-
-    private void playerMovement() {
-
-        if(Gdx.input.isKeyPressed(Input.Keys.UP))
-            rectangle.y += playerSpeed * Gdx.graphics.getDeltaTime();
-
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            rectangle.y -= playerSpeed * Gdx.graphics.getDeltaTime();
-
-        if(rectangle.y < 0)
-            rectangle.y = 0;
-
-        if(rectangle.y > 512)
-            rectangle.y = 512;
     }
 
 
@@ -183,6 +183,11 @@ public class GameScreen extends ScreenAdapter {
         return gameWorld;
     }
 
+    public Ball getBall() { return ball; }
+
+    public Player getPlayer() { return player; }
+
+    public EnemyPlayer getEnemyPlayer() { return enemyPlayer; }
 
     @Override
     public void dispose() {

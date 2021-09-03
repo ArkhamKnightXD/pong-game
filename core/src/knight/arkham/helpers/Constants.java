@@ -6,8 +6,7 @@ import knight.arkham.PongGame;
 public class Constants {
 
     //si queremos mover objetos en nuestro juego debemos de mult o dividirlo por esta variable
-    public static final float PIXELSPERMETER = 32.0f;
-
-    public static final float MIDSCREENHEIGHT = PongGame.INSTANCE.getScreenHeight() / 2;
-    public static final float MIDSCREENWIDTH = PongGame.INSTANCE.getScreenWidth() / 2;
+    public static final float PIXELS_PER_METER = 32.0f;
+    public static final float MID_SCREEN_HEIGHT = PongGame.INSTANCE.getScreenHeight() / 2;
+    public static final float MID_SCREEN_WIDTH = PongGame.INSTANCE.getScreenWidth() / 2;
 }

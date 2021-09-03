@@ -13,10 +13,11 @@ public class Player extends PlayerPaddle{
     }
 
 
-    public void updatePlayer(){
+    @Override
+    public void update(){
 
         //llamo al metodo update de la clase padre
-        super.updatePosition();
+        super.update();
 
         //la velocidad sera pos o neg dependiendo de la tecla que presionemos
         if (Gdx.input.isKeyPressed(Input.Keys.UP))

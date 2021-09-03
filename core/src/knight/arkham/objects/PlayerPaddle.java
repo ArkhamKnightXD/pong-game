@@ -51,10 +51,10 @@ public abstract class PlayerPaddle {
 
 
     //Aqui actualizaremos la posicion de nuestro player mediante el body
-    public void updatePosition(){
+    public void update(){
 
-        positionX = body.getPosition().x * Constants.PIXELSPERMETER - (width / 2);
-        positionY = body.getPosition().y * Constants.PIXELSPERMETER - (height / 2);
+        positionX = body.getPosition().x * Constants.PIXELS_PER_METER - (width / 2);
+        positionY = body.getPosition().y * Constants.PIXELS_PER_METER - (height / 2);
 
         //necesario definir esto en 0, sino mi personaje continuara moviendose aunque ya haya soltado el boton
         velocityY = 0;
