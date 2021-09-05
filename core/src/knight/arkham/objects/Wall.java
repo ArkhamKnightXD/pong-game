@@ -3,7 +3,6 @@ package knight.arkham.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
-import knight.arkham.PongGame;
 import knight.arkham.helpers.BodyHelper;
 import knight.arkham.helpers.Constants;
 import knight.arkham.helpers.ContactType;
@@ -11,16 +10,11 @@ import knight.arkham.screens.GameScreen;
 
 public class Wall {
 
-    private final PongGame game = PongGame.INSTANCE;
-
     private final Body body;
-    private float positionX;
-    private float positionY;
-    private float speed;
-    private float velocityY;
-    private float velocityX;
-    private int width;
-    private int height;
+    private final float positionX;
+    private final float positionY;
+    private final int width;
+    private final int height;
     private final Texture wallTexture;
 
 
@@ -28,9 +22,8 @@ public class Wall {
 
         this.positionX = Constants.MID_SCREEN_WIDTH;
         this.positionY = positionY;
-        this.width = game.getScreenWidth();
+        this.width = Constants.FULL_SCREEN_WIDTH;
         this.height = 64;
-
         this.wallTexture = new Texture("white.png");
 
         //isStatic es true debido a que es un objeto que no se movera debido a que es una pared

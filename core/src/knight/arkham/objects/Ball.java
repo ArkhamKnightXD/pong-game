@@ -3,7 +3,6 @@ package knight.arkham.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
-import knight.arkham.PongGame;
 import knight.arkham.helpers.BodyHelper;
 import knight.arkham.helpers.Constants;
 import knight.arkham.helpers.ContactType;
@@ -11,8 +10,6 @@ import knight.arkham.screens.GameScreen;
 
 //clase encargada del manejo de la bola
 public class Ball {
-
-    private final PongGame game = PongGame.INSTANCE;
 
     private final Body body;
     private float positionX;
@@ -46,9 +43,6 @@ public class Ball {
 
     }
 
-
-    public float getPositionY() { return positionY; }
-
     //funcion que se encargara de enviar la pelota en una direccion diferente siempre
     private float getRandomDirection(){
 
@@ -58,7 +52,7 @@ public class Ball {
 
 //todos los objetos necesitan de un metodo update y render, el metodo update lo llamare en la funcion update del gameScreen
     //y los metodos render dentro del metodo render dentro del spritebatch
-    public void updateBallPosition(){
+    public void update(){
 
         positionX = body.getPosition().x * Constants.PIXELS_PER_METER - (width / 2);
         positionY = body.getPosition().y * Constants.PIXELS_PER_METER - (height / 2);
@@ -73,7 +67,7 @@ public class Ball {
             resetBallPosition();
         }
 
-        if (positionX > game.getScreenWidth()){
+        if (positionX > Constants.FULL_SCREEN_WIDTH){
 
             gameScreen.getPlayer().score += 1;
             resetBallPosition();
@@ -94,7 +88,7 @@ public class Ball {
     }
 
 
-    public void renderBall(SpriteBatch batch){
+    public void render(SpriteBatch batch){
 
         batch.draw(ballTexture, positionX, positionY, width, height);
     }
@@ -116,4 +110,7 @@ public class Ball {
 
         velocityX *= 1.1f;
     }
+
+
+    public float getPositionY() { return positionY; }
 }

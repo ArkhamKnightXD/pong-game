@@ -35,11 +35,6 @@ public class PongGame extends Game {
 	}
 
 
-	public int getScreenWidth() { return screenWidth; }
-
-	public int getScreenHeight() { return screenHeight; }
-
-
 	public void render () { super.render(); }
 
 
@@ -48,4 +43,9 @@ public class PongGame extends Game {
 
 		batch.dispose();
 	}
+
+
+	public int getScreenWidth() { return screenWidth; }
+
+	public int getScreenHeight() { return screenHeight; }
 }

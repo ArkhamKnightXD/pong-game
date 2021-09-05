@@ -20,21 +20,12 @@ import knight.arkham.objects.Ball;
 import knight.arkham.objects.EnemyPlayer;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.Wall;
-import java.awt.*;
 
 public class GameScreen extends ScreenAdapter {
 
     private final PongGame game = PongGame.INSTANCE;
 
-    private final Rectangle rectangle;
-
-    private final Rectangle cpuPlayer;
-
     private final Music gameMusic;
-
-    private final int playerSpeed;
-
-    private boolean isCpuPlayerUp;
 
     private final OrthographicCamera camera;
 
@@ -44,19 +35,19 @@ public class GameScreen extends ScreenAdapter {
     //Siempre que se utiliza World esta variable es necesaria para poder realizar debug de nuestro world
     private final Box2DDebugRenderer box2DDebugRenderer;
 
-    //player
-    private Player player;
-    private EnemyPlayer enemyPlayer;
+    //players
+    private final Player player;
+    private final EnemyPlayer enemyPlayer;
 
-    private Ball ball;
+    private final Ball ball;
 
     //creamos dos objetos pared una para la parte de arriba y otra para la de abajo
-    private Wall wallTop;
-    private Wall wallBottom;
+    private final Wall wallTop;
+    private final Wall wallBottom;
 
     private GameContactListener gameContactListener;
 
-    private TextureRegion[] scoreNumbers;
+    private final TextureRegion[] scoreNumbers;
 
     public GameScreen(OrthographicCamera globalCamera) {
 
@@ -64,13 +55,6 @@ public class GameScreen extends ScreenAdapter {
 
         //seteando la posicion que tendra nuestra camara
         camera.position.set(new Vector3(Constants.MID_SCREEN_WIDTH, Constants.MID_SCREEN_HEIGHT, 0));
-
-        rectangle = new Rectangle(0,0,128,128);
-        cpuPlayer = new Rectangle(832,0,128,128);
-
-        isCpuPlayerUp = true;
-
-        playerSpeed = 500;
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/epic.wav"));
 
@@ -82,12 +66,12 @@ public class GameScreen extends ScreenAdapter {
         //instanciamos nuestro player, con la posicion que deseamos que tenga, dividimos la altura para asi colocar
         //el player en la mitad de la pantalla
         player = new Player(16, Constants.MID_SCREEN_HEIGHT, this);
-        enemyPlayer = new EnemyPlayer(game.getScreenWidth() - 16, Constants.MID_SCREEN_HEIGHT, this);
+        enemyPlayer = new EnemyPlayer(Constants.FULL_SCREEN_WIDTH - 16, Constants.MID_SCREEN_HEIGHT, this);
 
         ball = new Ball(this);
 
         wallBottom = new Wall(32, this);
-        wallTop = new Wall(game.getScreenHeight() - 32, this);
+        wallTop = new Wall(Constants.FULL_SCREEN_HEIGHT - 32, this);
 
         gameContactListener = new GameContactListener(this);
 
@@ -110,7 +94,7 @@ public class GameScreen extends ScreenAdapter {
         player.update();
         enemyPlayer.update();
 
-        ball.updateBallPosition();
+        ball.update();
 
         //camera combined envia la Camera's view and projection matrices., este metodo debe ir despues de camera.update
         game.batch.setProjectionMatrix(camera.combined);
@@ -145,10 +129,10 @@ public class GameScreen extends ScreenAdapter {
         game.batch.begin();
 
         //Aqui renderizamos nuestro objetos
-        player.renderPlayer(game.batch);
-        enemyPlayer.renderPlayer(game.batch);
+        player.render(game.batch);
+        enemyPlayer.render(game.batch);
 
-        ball.renderBall(game.batch);
+        ball.render(game.batch);
 
         wallTop.render(game.batch);
         wallBottom.render(game.batch);
@@ -163,32 +147,9 @@ public class GameScreen extends ScreenAdapter {
         //Aqui le paso el world y la camara combined esto lo utilizare para hacer debug de los elementos box2d creados
         //establecemos escala, porque sino se veria muy pequeño el debug, para hacer debug correctamente
         //debemos de comentar todos los elementos que deseemos debug en el spritebatch estos deben de tener box 2d obviamente
-       // box2DDebugRenderer.render(gameWorld, camera.combined.scl(Constants.PIXELS_PER_METER));
+//        box2DDebugRenderer.render(gameWorld, camera.combined.scl(Constants.PIXELS_PER_METER));
 
         //sino se esta utilizando se debe dejar comentando
-
-//        playerMovement();
-//        cpuPlayerMovement();
-    }
-
-
-    private void cpuPlayerMovement() {
-
-        if(cpuPlayer.y < 512 && isCpuPlayerUp){
-
-            cpuPlayer.y += playerSpeed * Gdx.graphics.getDeltaTime();
-
-            if (cpuPlayer.y >= 512)
-                isCpuPlayerUp = false;
-        }
-
-        if(cpuPlayer.y > 0 && !isCpuPlayerUp){
-
-            cpuPlayer.y -= playerSpeed * Gdx.graphics.getDeltaTime();
-
-            if (cpuPlayer.y <= 0)
-                isCpuPlayerUp = true;
-        }
     }
 
 
@@ -205,18 +166,6 @@ public class GameScreen extends ScreenAdapter {
     public void hide() {
 
     }
-
-
-    public World getGameWorld() {
-        return gameWorld;
-    }
-
-    public Ball getBall() { return ball; }
-
-    public Player getPlayer() { return player; }
-
-    public EnemyPlayer getEnemyPlayer() { return enemyPlayer; }
-
 
     //Metodo encargado de manejar el spritesheet del score
     private TextureRegion[] loadTextureSprite(String fileName, int columns){
@@ -247,10 +196,24 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
+
     @Override
     public void dispose() {
 
+        player.getPlayerTexture().dispose();
+        enemyPlayer.getPlayerTexture().dispose();
         gameWorld.dispose();
         gameMusic.dispose();
     }
+
+
+    public World getGameWorld() {
+        return gameWorld;
+    }
+
+    public Ball getBall() { return ball; }
+
+    public Player getPlayer() { return player; }
+
+    public EnemyPlayer getEnemyPlayer() { return enemyPlayer; }
 }

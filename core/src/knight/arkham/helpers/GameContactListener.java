@@ -3,10 +3,10 @@ package knight.arkham.helpers;
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.screens.GameScreen;
 
+//Clase encargada del manejo de las colissiones entre box2d
 public class GameContactListener implements ContactListener {
 
-    private GameScreen gameScreen;
-
+    private final GameScreen gameScreen;
 
     public GameContactListener(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -17,7 +17,7 @@ public class GameContactListener implements ContactListener {
 
         //buscamos los dos objetos que colisionaron
        Fixture fixtureA = contact.getFixtureA();
-        Fixture fixtureB = contact.getFixtureB();
+       Fixture fixtureB = contact.getFixtureB();
 
         //distintas comprobaciones para evitar erro
         if (fixtureA == null || fixtureB == null)

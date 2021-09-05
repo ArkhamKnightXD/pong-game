@@ -12,7 +12,6 @@ public class Player extends PlayerPaddle{
         super(positionX, positionY, gameScreen);
     }
 
-
     @Override
     public void update(){
 

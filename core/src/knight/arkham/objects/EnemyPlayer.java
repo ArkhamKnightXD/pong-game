@@ -4,11 +4,9 @@ import knight.arkham.screens.GameScreen;
 
 public class EnemyPlayer extends PlayerPaddle{
 
-
     public EnemyPlayer(float positionX, float positionY, GameScreen gameScreen) {
         super(positionX, positionY, gameScreen);
     }
-
 
     @Override
     public void update() {

@@ -60,8 +60,8 @@ public abstract class PlayerPaddle {
         velocityY = 0;
     }
 
-
-    public void renderPlayer(SpriteBatch batch){
+    //Aqui dibujaremos en pantalla nuestro player
+    public void render(SpriteBatch batch){
 
         batch.draw(playerTexture, positionX, positionY, width, height);
     }
@@ -71,4 +71,6 @@ public abstract class PlayerPaddle {
 
     //Creamos un setter porque necesitamos resetear el score a 0 cuando inicie un nuevo juego
     public void setScore(int score) { this.score = score; }
+
+    public Texture getPlayerTexture() { return playerTexture; }
 }
