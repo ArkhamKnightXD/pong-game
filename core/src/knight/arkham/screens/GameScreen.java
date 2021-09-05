@@ -58,6 +58,10 @@ public class GameScreen extends ScreenAdapter {
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/epic.wav"));
 
+        gameMusic.play();
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(0.05f);
+
         //para instanciar nuestro objeto world debemos pasarle un vector2 en el que especificamos la gravedad de X y Y
         //por ahora seran 0
         gameWorld = new World(new Vector2(0,0), false);
@@ -156,9 +160,6 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
 
-        gameMusic.play();
-        gameMusic.setLooping(true);
-        gameMusic.setVolume(0.05f);
     }
 
 

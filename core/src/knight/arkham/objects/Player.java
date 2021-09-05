@@ -19,10 +19,10 @@ public class Player extends PlayerPaddle{
         super.update();
 
         //la velocidad sera pos o neg dependiendo de la tecla que presionemos
-        if (Gdx.input.isKeyPressed(Input.Keys.UP))
+        if (Gdx.input.isKeyPressed(Input.Keys.W))
             velocityY = 1;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        if (Gdx.input.isKeyPressed(Input.Keys.S))
             velocityY = -1;
 
         //finalmente indicamos la velocidad a nuestro body
