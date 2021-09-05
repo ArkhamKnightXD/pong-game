@@ -65,4 +65,10 @@ public abstract class PlayerPaddle {
 
         batch.draw(playerTexture, positionX, positionY, width, height);
     }
+
+
+    public int getScore() { return score; }
+
+    //Creamos un setter porque necesitamos resetear el score a 0 cuando inicie un nuevo juego
+    public void setScore(int score) { this.score = score; }
 }

@@ -27,13 +27,14 @@ public class BodyHelper {
         PolygonShape shape = new PolygonShape();
 
         //dividimos entre 2 para colocarlo en el medio y tambien debemos de dividir por nuestro pixel
-        shape.setAsBox(width /2 / Constants.PIXELS_PER_METER, height /2 /Constants.PIXELS_PER_METER);
+        shape.setAsBox(width / 2 / Constants.PIXELS_PER_METER, height /2 /Constants.PIXELS_PER_METER);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = density;
 
-        //Agregamos el fixture def a nuestro body y finalmente retornamos
+        //Agregamos el fixture def a nuestro body y finalmente retornamos, al final le pasamos que type tendra el body
+        //para que a la hora de hacer collisiones podamos reconocerlo de forma facil
         body.createFixture(fixtureDef).setUserData(type);
 
         //luego de utilizada nuestro shape en el body ya no es necesaria
