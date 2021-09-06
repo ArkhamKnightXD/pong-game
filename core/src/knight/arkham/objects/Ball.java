@@ -26,7 +26,7 @@ public class Ball {
 
         this.positionX = Constants.MID_SCREEN_WIDTH;
         this.positionY = Constants.MID_SCREEN_HEIGHT;
-        this.speed = 7;
+        this.speed = 8;
         this.width = 32;
         this.height = 32;
 
@@ -81,7 +81,7 @@ public class Ball {
         //pondre los valores de speed y velocity de forma normal para que la pelo continue moviendose luego del reset
         this.velocityX = getRandomDirection();
         this.velocityY = getRandomDirection();
-        this.speed = 7;
+        this.speed = 8;
 
         //seteo la position de la bola en la mitad de la pantalla, mediante transform, es como el transform de unity
         this.body.setTransform(Constants.MID_SCREEN_WIDTH / Constants.PIXELS_PER_METER, Constants.MID_SCREEN_HEIGHT / Constants.PIXELS_PER_METER, 0);

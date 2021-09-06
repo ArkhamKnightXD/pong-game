@@ -45,7 +45,7 @@ public class GameScreen extends ScreenAdapter {
     private final Wall wallTop;
     private final Wall wallBottom;
 
-    private GameContactListener gameContactListener;
+    private final GameContactListener gameContactListener;
 
     private final TextureRegion[] scoreNumbers;
     
@@ -123,15 +123,15 @@ public class GameScreen extends ScreenAdapter {
         }
 
 
-        if (player.getScore() > 4){
+        if (player.getScore() > 9){
 
-            game.setScreen(new EndGameScreen(camera, true));
+            game.setScreen(new MainMenuScreen(camera, true, true));
             dispose();
         }
 
-        if (enemyPlayer.getScore() > 4){
+        if (enemyPlayer.getScore() > 9){
 
-            game.setScreen(new EndGameScreen(camera, false));
+            game.setScreen(new MainMenuScreen(camera, false, true));
             dispose();
         }
     }
@@ -142,7 +142,7 @@ public class GameScreen extends ScreenAdapter {
 
         update();
 
-        ScreenUtils.clear(0,0,0,0);
+        ScreenUtils.clear(0,0,0,1);
 
         game.batch.begin();
 
@@ -170,17 +170,6 @@ public class GameScreen extends ScreenAdapter {
         //sino se esta utilizando se debe dejar comentando
     }
 
-
-    @Override
-    public void show() {
-
-    }
-
-
-    @Override
-    public void hide() {
-
-    }
 
     //Metodo encargado de manejar el spritesheet del score
     private TextureRegion[] loadTextureSprite(String fileName, int columns){
@@ -218,7 +207,6 @@ public class GameScreen extends ScreenAdapter {
         player.getPlayerTexture().dispose();
         enemyPlayer.getPlayerTexture().dispose();
         gameWorld.dispose();
-        gameMusic.dispose();
         gameMusic.dispose();
     }
 

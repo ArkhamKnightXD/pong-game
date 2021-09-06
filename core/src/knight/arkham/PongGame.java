@@ -34,7 +34,7 @@ public class PongGame extends Game {
 		OrthographicCamera globalCamera = new OrthographicCamera();
 		globalCamera.setToOrtho(false, screenWidth, screenHeight);
 		
-		setScreen(new MainMenuScreen(globalCamera));
+		setScreen(new MainMenuScreen(globalCamera, false, false));
 	}
 
 
