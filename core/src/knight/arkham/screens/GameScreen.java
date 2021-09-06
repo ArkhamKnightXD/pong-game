@@ -48,8 +48,9 @@ public class GameScreen extends ScreenAdapter {
     private GameContactListener gameContactListener;
 
     private final TextureRegion[] scoreNumbers;
+    
 
-    public GameScreen(OrthographicCamera globalCamera) {
+    public GameScreen(OrthographicCamera globalCamera, boolean isCpuPlayer) {
 
         camera = globalCamera;
 
@@ -70,7 +71,7 @@ public class GameScreen extends ScreenAdapter {
         //instanciamos nuestro player, con la posicion que deseamos que tenga, dividimos la altura para asi colocar
         //el player en la mitad de la pantalla
         player = new Player(16, Constants.MID_SCREEN_HEIGHT, this);
-        enemyPlayer = new EnemyPlayer(Constants.FULL_SCREEN_WIDTH - 16, Constants.MID_SCREEN_HEIGHT, this);
+        enemyPlayer = new EnemyPlayer(Constants.FULL_SCREEN_WIDTH - 16, Constants.MID_SCREEN_HEIGHT, this, isCpuPlayer);
 
         ball = new Ball(this);
 
@@ -119,6 +120,19 @@ public class GameScreen extends ScreenAdapter {
 
             dispose();
             Gdx.app.exit();
+        }
+
+
+        if (player.getScore() > 4){
+
+            game.setScreen(new EndGameScreen(camera, true));
+            dispose();
+        }
+
+        if (enemyPlayer.getScore() > 4){
+
+            game.setScreen(new EndGameScreen(camera, false));
+            dispose();
         }
     }
 
@@ -204,6 +218,7 @@ public class GameScreen extends ScreenAdapter {
         player.getPlayerTexture().dispose();
         enemyPlayer.getPlayerTexture().dispose();
         gameWorld.dispose();
+        gameMusic.dispose();
         gameMusic.dispose();
     }
 

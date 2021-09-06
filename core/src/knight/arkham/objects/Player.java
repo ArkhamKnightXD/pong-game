@@ -20,10 +20,10 @@ public class Player extends PlayerPaddle{
 
         //la velocidad sera pos o neg dependiendo de la tecla que presionemos
         if (Gdx.input.isKeyPressed(Input.Keys.W))
-            velocityY = 1;
+            velocityY = 1.25f;
 
         if (Gdx.input.isKeyPressed(Input.Keys.S))
-            velocityY = -1;
+            velocityY = -1.25f;
 
         //finalmente indicamos la velocidad a nuestro body
         body.setLinearVelocity(0, velocityY * speed);
