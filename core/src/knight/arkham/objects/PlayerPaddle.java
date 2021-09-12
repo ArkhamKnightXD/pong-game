@@ -41,7 +41,7 @@ public abstract class PlayerPaddle {
         this.width = 16;
         this.height = 64;
 
-        this.playerTexture = new Texture("players.png");
+        this.playerTexture = new Texture("img/players.png");
 
         //Especificamos el body con los datos y al final indicamos que este body es de nuestro player, la densidad en 10k
         //es un valor razonable y puede cambiarse al gusto

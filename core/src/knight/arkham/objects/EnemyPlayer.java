@@ -27,19 +27,19 @@ public class EnemyPlayer extends PlayerPaddle{
             Ball ball = gameScreen.getBall();
             //los +10 y -10 son para darle algo de respiro a nuestro cpu player, y que su movimiento no sea tan estricto
             if (ball.getPositionY() + 10 > positionY && ball.getPositionY() - 10 > positionY)
-                velocityY = 0.7f;
+                velocityY = 0.75f;
 
             if (ball.getPositionY() + 10 < positionY && ball.getPositionY() - 10 < positionY)
-                velocityY = -0.7f;
+                velocityY = -0.75f;
         }
 
         else {
 
             if (Gdx.input.isKeyPressed(Input.Keys.O))
-                velocityY = 1.25f;
+                velocityY = 1.5f;
 
             if (Gdx.input.isKeyPressed(Input.Keys.L))
-                velocityY = -1.25f;
+                velocityY = -1.5f;
         }
 
 

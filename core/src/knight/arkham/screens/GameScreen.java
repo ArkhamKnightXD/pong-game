@@ -83,7 +83,7 @@ public class GameScreen extends ScreenAdapter {
         //Luego de instanciar el gamecontactlistener se lo agregamos a nuestro world
         gameWorld.setContactListener(gameContactListener);
 
-        scoreNumbers = loadTextureSprite("numbers.png", 10);
+        scoreNumbers = loadTextureSprite("img/numbers.png", 10);
     }
 
     //Creare un metodo update igual que en unity donde manejare la actualizacion de los objetos y lo llamare en render

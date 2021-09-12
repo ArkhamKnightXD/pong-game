@@ -35,7 +35,7 @@ public class Ball {
         this.velocityY = getRandomDirection();
 
         this.gameScreen = gameScreen;
-        this.ballTexture = new Texture("white.png");
+        this.ballTexture = new Texture("img/white.png");
 
         //density = 0 ni idea por que iria asi en este caso
         this.body = BodyHelper.createBody(positionX, positionY, width, height, false,
@@ -75,6 +75,12 @@ public class Ball {
     }
 
 
+    public void render(SpriteBatch batch){
+
+        batch.draw(ballTexture, positionX, positionY, width, height);
+    }
+
+
     //Reset the ball position cuando salga de pantalla
     public void resetBallPosition(){
 
@@ -85,12 +91,6 @@ public class Ball {
 
         //seteo la position de la bola en la mitad de la pantalla, mediante transform, es como el transform de unity
         this.body.setTransform(Constants.MID_SCREEN_WIDTH / Constants.PIXELS_PER_METER, Constants.MID_SCREEN_HEIGHT / Constants.PIXELS_PER_METER, 0);
-    }
-
-
-    public void render(SpriteBatch batch){
-
-        batch.draw(ballTexture, positionX, positionY, width, height);
     }
 
 

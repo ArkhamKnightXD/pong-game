@@ -24,7 +24,7 @@ public class Wall {
         this.positionY = positionY;
         this.width = Constants.FULL_SCREEN_WIDTH;
         this.height = 64;
-        this.wallTexture = new Texture("wall.png");
+        this.wallTexture = new Texture("img/wall.png");
 
         //isStatic es true debido a que es un objeto que no se movera debido a que es una pared
         this.body = BodyHelper.createBody(positionX, positionY, width, height, true,
