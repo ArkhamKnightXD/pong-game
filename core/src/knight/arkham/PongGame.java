@@ -45,6 +45,7 @@ public class PongGame extends Game {
 	public void dispose () {
 
 		batch.dispose();
+		font.dispose();
 	}
 
 

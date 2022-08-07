@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import knight.arkham.helpers.BodyHelper;
+import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Constants;
 import knight.arkham.helpers.ContactType;
 import knight.arkham.screens.GameScreen;
@@ -22,6 +23,9 @@ public abstract class PlayerPaddle {
 
     //Esta variable se encarga de manejar la velocidad en que se movera nuestro personaje
     protected float speed;
+
+//    Cuando trabajamos con fisica la variable velocidad es la encargada de manejar el movimiento del jugador
+//    Asi que esta variable se le sumara o se le restara dependiendo hacia donde queremos ir
     protected float velocityY;
 
     protected int width;
@@ -37,16 +41,16 @@ public abstract class PlayerPaddle {
         this.positionX = positionX;
         this.positionY = positionY;
         this.gameScreen = gameScreen;
-        this.speed = 10;
-        this.width = 16;
-        this.height = 64;
+        speed = 10;
+        width = 16;
+        height = 64;
 
-        this.playerTexture = new Texture("img/players.png");
+        playerTexture = new Texture("img/players.png");
 
         //Especificamos el body con los datos y al final indicamos que este body es de nuestro player, la densidad en 10k
         //es un valor razonable y puede cambiarse al gusto
-        this.body = BodyHelper.createBody(positionX, positionY, width, height, false, 10000,
-                gameScreen.getGameWorld(), ContactType.PLAYER);
+        body = BodyHelper.createBody(new Box2DBody(positionX, positionY, width, height,
+                false, 10000, gameScreen.getGameWorld(), ContactType.PLAYER));
     }
 
 

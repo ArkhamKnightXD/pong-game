@@ -3,7 +3,7 @@ package knight.arkham.helpers;
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.screens.GameScreen;
 
-//Clase encargada del manejo de las colissiones entre box2d
+//Clase encargada del manejo de las colisiones entre box2d
 public class GameContactListener implements ContactListener {
 
     private final GameScreen gameScreen;
@@ -19,13 +19,10 @@ public class GameContactListener implements ContactListener {
        Fixture fixtureA = contact.getFixtureA();
        Fixture fixtureB = contact.getFixtureB();
 
-        //distintas comprobaciones para evitar erro
-        if (fixtureA == null || fixtureB == null)
+        //distintas comprobaciones para evitar error
+        if ((fixtureA == null || fixtureB == null) || (fixtureA.getUserData() == null || fixtureB.getUserData() == null))
             return;
 
-        //no se si es necesaria la doble comprobacion
-        if (fixtureA.getUserData() == null || fixtureB.getUserData() == null)
-            return;
 
         //comprobacion de elementos, en esta comparacion no me importaria el orden de los elementos
         if (fixtureA.getUserData() == ContactType.BALL || fixtureB.getUserData() == ContactType.BALL){

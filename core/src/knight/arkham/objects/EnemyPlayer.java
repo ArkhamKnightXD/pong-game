@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import knight.arkham.screens.GameScreen;
 
-public class EnemyPlayer extends PlayerPaddle{
+public class EnemyPlayer extends PlayerPaddle {
 
     private final boolean isCpuPlayer;
 
@@ -20,6 +20,10 @@ public class EnemyPlayer extends PlayerPaddle{
 
         super.update();
 
+        cpuPlayerMovement();
+    }
+
+    private void cpuPlayerMovement() {
         //codigo encargado de manejar el movimiento cuando estemos jugando contra la cpu
         if (isCpuPlayer){
 
@@ -41,8 +45,7 @@ public class EnemyPlayer extends PlayerPaddle{
             if (Gdx.input.isKeyPressed(Input.Keys.L))
                 velocityY = -1.5f;
         }
-
-
+        
         body.setLinearVelocity(0, velocityY * speed);
     }
 }

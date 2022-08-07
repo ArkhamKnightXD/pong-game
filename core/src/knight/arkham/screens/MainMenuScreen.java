@@ -7,11 +7,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.PongGame;
-import knight.arkham.helpers.Constants;
+import static knight.arkham.helpers.Constants.MID_SCREEN_HEIGHT;
+import static knight.arkham.helpers.Constants.MID_SCREEN_WIDTH;
 
 public class MainMenuScreen extends ScreenAdapter {
 
-    private final PongGame game = PongGame.INSTANCE;
+    private final PongGame game;
 
     private final OrthographicCamera camera;
 
@@ -24,6 +25,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
     public MainMenuScreen(OrthographicCamera globalCamera, boolean player1HasWin, boolean isGameOver) {
 
+        game = PongGame.INSTANCE;
         camera = globalCamera;
         this.player1HasWin = player1HasWin;
         this.isGameOver = isGameOver;
@@ -42,6 +44,7 @@ public class MainMenuScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
+//        El elemento ScreenUtils.clear limpia la pantalla en cada renderizado
         ScreenUtils.clear(0,0,0,1);
 
         game.batch.begin();
@@ -49,21 +52,26 @@ public class MainMenuScreen extends ScreenAdapter {
         if (isGameOver){
 
             if (player1HasWin)
-                game.font.draw(game.batch, "Player 1 won the game", Constants.MID_SCREEN_WIDTH-100, Constants.MID_SCREEN_HEIGHT);
+                game.font.draw(game.batch, "Player 1 won the game", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT);
 
             else
-                game.font.draw(game.batch, "Player 2 won the game", Constants.MID_SCREEN_WIDTH-100, Constants.MID_SCREEN_HEIGHT);
+                game.font.draw(game.batch, "Player 2 won the game", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT);
 
         }
 
         else
-            game.font.draw(game.batch, "Welcome to Pong!!! ", Constants.MID_SCREEN_WIDTH-100, Constants.MID_SCREEN_HEIGHT);
+            game.font.draw(game.batch, "Welcome to Pong!!! ", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT);
 
 
-        game.font.draw(game.batch, "Press Enter for single player", Constants.MID_SCREEN_WIDTH-100, Constants.MID_SCREEN_HEIGHT-50);
-        game.font.draw(game.batch, "Press Space for 2 players vs", Constants.MID_SCREEN_WIDTH-100, Constants.MID_SCREEN_HEIGHT-100);
+        game.font.draw(game.batch, "Press Enter for single player", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-50);
+        game.font.draw(game.batch, "Press Space for 2 players vs", MID_SCREEN_WIDTH-100, MID_SCREEN_HEIGHT-100);
 
         game.batch.end();
+
+        manageGameModeSelection();
+    }
+
+    private void manageGameModeSelection() {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)){
 

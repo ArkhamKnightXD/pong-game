@@ -14,6 +14,8 @@ public class DesktopLauncher {
 		config.width = 960;
 		config.height = 640;
 
+		config.forceExit = false;
+
 		new LwjglApplication(new PongGame(), config);
 	}
 }

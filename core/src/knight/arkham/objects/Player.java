@@ -18,6 +18,10 @@ public class Player extends PlayerPaddle{
         //llamo al metodo update de la clase padre
         super.update();
 
+        playerMovement();
+    }
+
+    private void playerMovement() {
         //la velocidad sera pos o neg dependiendo de la tecla que presionemos
         if (Gdx.input.isKeyPressed(Input.Keys.W))
             velocityY = 1.5f;
@@ -28,4 +32,5 @@ public class Player extends PlayerPaddle{
         //finalmente indicamos la velocidad a nuestro body
         body.setLinearVelocity(0, velocityY * speed);
     }
+
 }

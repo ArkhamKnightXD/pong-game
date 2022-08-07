@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.PongGame;
@@ -20,6 +19,7 @@ import knight.arkham.objects.Ball;
 import knight.arkham.objects.EnemyPlayer;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.Wall;
+//import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -33,7 +33,7 @@ public class GameScreen extends ScreenAdapter {
     private final World gameWorld;
 
     //Siempre que se utiliza World esta variable es necesaria para poder realizar debug de nuestro world
-    private final Box2DDebugRenderer box2DDebugRenderer;
+//    private final Box2DDebugRenderer box2DDebugRenderer;
 
     //players
     private final Player player;
@@ -45,8 +45,6 @@ public class GameScreen extends ScreenAdapter {
     private final Wall wallTop;
     private final Wall wallBottom;
 
-    private final GameContactListener gameContactListener;
-
     private final TextureRegion[] scoreNumbers;
     
 
@@ -54,7 +52,10 @@ public class GameScreen extends ScreenAdapter {
 
         camera = globalCamera;
 
-        //seteando la posicion que tendra nuestra camara
+        //        Comentada mientras no se utilice
+//        box2DDebugRenderer = new Box2DDebugRenderer();
+
+        //seteando la posicion que tendra nuestra camara en esta pantalla
         camera.position.set(new Vector3(Constants.MID_SCREEN_WIDTH, Constants.MID_SCREEN_HEIGHT, 0));
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/epic.wav"));
@@ -66,7 +67,6 @@ public class GameScreen extends ScreenAdapter {
         //para instanciar nuestro objeto world debemos pasarle un vector2 en el que especificamos la gravedad de X y Y
         //por ahora seran 0
         gameWorld = new World(new Vector2(0,0), false);
-        box2DDebugRenderer = new Box2DDebugRenderer();
 
         //instanciamos nuestro player, con la posicion que deseamos que tenga, dividimos la altura para asi colocar
         //el player en la mitad de la pantalla
@@ -78,7 +78,7 @@ public class GameScreen extends ScreenAdapter {
         wallBottom = new Wall(32, this);
         wallTop = new Wall(Constants.FULL_SCREEN_HEIGHT - 32, this);
 
-        gameContactListener = new GameContactListener(this);
+        GameContactListener gameContactListener = new GameContactListener(this);
 
         //Luego de instanciar el gamecontactlistener se lo agregamos a nuestro world
         gameWorld.setContactListener(gameContactListener);
@@ -93,16 +93,17 @@ public class GameScreen extends ScreenAdapter {
         gameWorld.step(1/60f, 6, 2);
 
         //camera.update debe ir antes de los metodos update de mis objetos, eso creo
+        //para que los box2d se visualicen correctamente con el debugrenderer camera.update debe de implementarse
         camera.update();
+
+        //camera combined envia la Camera's view and projection matrices., este metodo debe ir despues de camera.update
+        game.batch.setProjectionMatrix(camera.combined);
 
         //actualizamos nuestro player
         player.update();
         enemyPlayer.update();
 
         ball.update();
-
-        //camera combined envia la Camera's view and projection matrices., este metodo debe ir despues de camera.update
-        game.batch.setProjectionMatrix(camera.combined);
 
         //si presionamos r la pelota resetea su posicion, isKeyJustPressed es mas preciso que iskeypressed
         //el otro verifica la pulsacion muchas mas veces que este
@@ -123,13 +124,17 @@ public class GameScreen extends ScreenAdapter {
         }
 
 
-        if (player.getScore() > 9){
+        setGameOverScreen();
+    }
+
+    private void setGameOverScreen() {
+        if (player.getScore() > 4){
 
             game.setScreen(new MainMenuScreen(camera, true, true));
             dispose();
         }
 
-        if (enemyPlayer.getScore() > 9){
+        if (enemyPlayer.getScore() > 4){
 
             game.setScreen(new MainMenuScreen(camera, false, true));
             dispose();
@@ -157,7 +162,8 @@ public class GameScreen extends ScreenAdapter {
 
         // el player score estara a la izquieda casi pegado de arriba y el enemy estara del lado derecho de la pantalla
         drawScoreNumbers(game.batch, player.getScore(), 64 , game.getScreenHeight() - 55, 30, 42);
-        drawScoreNumbers(game.batch, enemyPlayer.getScore(), game.getScreenWidth()-96 , game.getScreenHeight() - 55, 30, 42);
+        drawScoreNumbers(game.batch, enemyPlayer.getScore(), game.getScreenWidth()-96 ,
+                game.getScreenHeight() - 55, 30, 42);
 
         game.batch.end();
 
@@ -206,6 +212,7 @@ public class GameScreen extends ScreenAdapter {
 
         player.getPlayerTexture().dispose();
         enemyPlayer.getPlayerTexture().dispose();
+        ball.getBallTexture().dispose();
         gameWorld.dispose();
         gameMusic.dispose();
     }
