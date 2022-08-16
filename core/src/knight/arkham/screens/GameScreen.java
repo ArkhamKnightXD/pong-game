@@ -19,7 +19,6 @@ import knight.arkham.objects.Ball;
 import knight.arkham.objects.EnemyPlayer;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.Wall;
-//import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -46,19 +45,19 @@ public class GameScreen extends ScreenAdapter {
     private final Wall wallBottom;
 
     private final TextureRegion[] scoreNumbers;
-    
+
 
     public GameScreen(OrthographicCamera globalCamera, boolean isCpuPlayer) {
 
         camera = globalCamera;
 
-        //        Comentada mientras no se utilice
-//        box2DDebugRenderer = new Box2DDebugRenderer();
 
         //seteando la posicion que tendra nuestra camara en esta pantalla
         camera.position.set(new Vector3(Constants.MID_SCREEN_WIDTH, Constants.MID_SCREEN_HEIGHT, 0));
 
+//        gameMusic = localAssetsManager.get("music/epic.wav", Music.class);
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/epic.wav"));
+
 
         gameMusic.play();
         gameMusic.setLooping(true);
@@ -71,7 +70,8 @@ public class GameScreen extends ScreenAdapter {
         //instanciamos nuestro player, con la posicion que deseamos que tenga, dividimos la altura para asi colocar
         //el player en la mitad de la pantalla
         player = new Player(16, Constants.MID_SCREEN_HEIGHT, this);
-        enemyPlayer = new EnemyPlayer(Constants.FULL_SCREEN_WIDTH - 16, Constants.MID_SCREEN_HEIGHT, this, isCpuPlayer);
+        enemyPlayer = new EnemyPlayer(Constants.FULL_SCREEN_WIDTH - 16,
+                Constants.MID_SCREEN_HEIGHT, this, isCpuPlayer);
 
         ball = new Ball(this);
 
@@ -84,6 +84,9 @@ public class GameScreen extends ScreenAdapter {
         gameWorld.setContactListener(gameContactListener);
 
         scoreNumbers = loadTextureSprite("img/numbers.png", 10);
+
+        //        Comentada mientras no se utilice
+//        box2DDebugRenderer = new Box2DDebugRenderer();
     }
 
     //Creare un metodo update igual que en unity donde manejare la actualizacion de los objetos y lo llamare en render
@@ -122,7 +125,6 @@ public class GameScreen extends ScreenAdapter {
             dispose();
             Gdx.app.exit();
         }
-
 
         setGameOverScreen();
     }

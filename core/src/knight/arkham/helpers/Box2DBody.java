@@ -2,6 +2,7 @@ package knight.arkham.helpers;
 
 import com.badlogic.gdx.physics.box2d.World;
 
+//Clase encargada de manejar la estructura de mis elementos box2d
 public class Box2DBody {
 
     public float xPosition;

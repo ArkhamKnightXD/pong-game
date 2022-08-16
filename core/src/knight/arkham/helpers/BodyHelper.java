@@ -14,7 +14,7 @@ public class BodyHelper {
         //hay 3 tipos de body el dinamico, el kinematico y el statico igual que en unity, probablemente es la misma libreria
         //aqui utilizare un simple if else, si static es falso que sea un dinamic body sino statci
         //un objeto static son los que se quedaran quietos siempre, uno dinamico son los que se mueven
-        bodyDef.type = !box2DBody.isStatic ? BodyDef.BodyType.DynamicBody : BodyDef.BodyType.StaticBody;
+        bodyDef.type = box2DBody.isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody;
 
         bodyDef.position.set(box2DBody.xPosition / Constants.PIXELS_PER_METER,
                 box2DBody.yPosition /Constants.PIXELS_PER_METER);
