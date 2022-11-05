@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import knight.arkham.screens.GameScreen;
 
-//implemento herencia basicamente, asi puedo heredar todos los metodos de mi clase padre
+//implemento herencia básicamente, asi puedo heredar todos los metodos de mi clase padre
 public class Player extends PlayerPaddle{
 
     public Player(float positionX, float positionY, GameScreen gameScreen) {
@@ -22,14 +22,14 @@ public class Player extends PlayerPaddle{
     }
 
     private void playerMovement() {
-        //la velocidad sera pos o neg dependiendo de la tecla que presionemos
+        //la velocidad será positiva o negativa dependiendo de la tecla que presionemos
         if (Gdx.input.isKeyPressed(Input.Keys.W))
             velocityY = 1.5f;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.S))
+        else if (Gdx.input.isKeyPressed(Input.Keys.S))
             velocityY = -1.5f;
 
-        //finalmente indicamos la velocidad a nuestro body
+        //finalmente, indicamos la velocidad a nuestro body
         body.setLinearVelocity(0, velocityY * speed);
     }
 

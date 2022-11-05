@@ -20,17 +20,17 @@ public class GameContactListener implements ContactListener {
        Fixture fixtureB = contact.getFixtureB();
 
         //distintas comprobaciones para evitar error
-        if ((fixtureA == null || fixtureB == null) || (fixtureA.getUserData() == null || fixtureB.getUserData() == null))
+        if (fixtureA.getUserData() == null || fixtureB.getUserData() == null)
             return;
 
-
-        //comprobacion de elementos, en esta comparacion no me importaria el orden de los elementos
+        //comprobación de elementos, en esta comparación no me importaría el orden de los elementos
         if (fixtureA.getUserData() == ContactType.BALL || fixtureB.getUserData() == ContactType.BALL){
 
             //si Ball hit the - Player
             if (fixtureA.getUserData() == ContactType.PLAYER || fixtureB.getUserData() == ContactType.PLAYER){
 
-                //al final si hay contacto entre estos dos elementos llamamos las dos funciones para que invierta direccion x y aumente velocidad
+                //al final si hay contacto entre estos dos elementos llamamos las dos funciones para que invierta
+                // dirección X y aumente velocidad
                 gameScreen.getBall().reverseVelocityX();
                 gameScreen.getBall().incrementSpeed();
             }
@@ -38,7 +38,7 @@ public class GameContactListener implements ContactListener {
             //si Ball hit the - Wall
             if (fixtureA.getUserData() == ContactType.WALL || fixtureB.getUserData() == ContactType.WALL){
 
-                //Si golpea la pelota queremos que invierta su direccion vertical
+                //Si golpea la pelota queremos que invierta su dirección vertical
                 gameScreen.getBall().reverseVelocityY();
             }
         }

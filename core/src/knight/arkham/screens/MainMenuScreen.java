@@ -25,10 +25,10 @@ public class MainMenuScreen extends ScreenAdapter {
 
     public MainMenuScreen(OrthographicCamera globalCamera, boolean player1HasWin, boolean isGameOver) {
 
-        game = PongGame.INSTANCE;
-        camera = globalCamera;
         this.player1HasWin = player1HasWin;
         this.isGameOver = isGameOver;
+        game = PongGame.INSTANCE;
+        camera = globalCamera;
         playerWinSound = Gdx.audio.newSound(Gdx.files.internal("fx/win.wav"));
     }
 
@@ -73,19 +73,18 @@ public class MainMenuScreen extends ScreenAdapter {
 
     private void manageGameModeSelection() {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER))
             game.setScreen(new GameScreen(camera, true));
-            dispose();
-        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-
+        else if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
             game.setScreen(new GameScreen(camera, false));
-            dispose();
-        }
+
     }
 
+    @Override
+    public void hide() {
+        dispose();
+    }
 
     @Override
     public void dispose() {

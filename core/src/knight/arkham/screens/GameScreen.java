@@ -13,12 +13,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.PongGame;
-import knight.arkham.helpers.Constants;
 import knight.arkham.helpers.GameContactListener;
 import knight.arkham.objects.Ball;
 import knight.arkham.objects.EnemyPlayer;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.Wall;
+
+import static knight.arkham.helpers.Constants.*;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -53,7 +54,7 @@ public class GameScreen extends ScreenAdapter {
 
 
         //seteando la posicion que tendra nuestra camara en esta pantalla
-        camera.position.set(new Vector3(Constants.MID_SCREEN_WIDTH, Constants.MID_SCREEN_HEIGHT, 0));
+        camera.position.set(new Vector3(MID_SCREEN_WIDTH, MID_SCREEN_HEIGHT, 0));
 
 //        gameMusic = localAssetsManager.get("music/epic.wav", Music.class);
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/epic.wav"));
@@ -69,14 +70,13 @@ public class GameScreen extends ScreenAdapter {
 
         //instanciamos nuestro player, con la posicion que deseamos que tenga, dividimos la altura para asi colocar
         //el player en la mitad de la pantalla
-        player = new Player(16, Constants.MID_SCREEN_HEIGHT, this);
-        enemyPlayer = new EnemyPlayer(Constants.FULL_SCREEN_WIDTH - 16,
-                Constants.MID_SCREEN_HEIGHT, this, isCpuPlayer);
+        player = new Player(16, MID_SCREEN_HEIGHT, this);
+        enemyPlayer = new EnemyPlayer(FULL_SCREEN_WIDTH - 16, MID_SCREEN_HEIGHT, this, isCpuPlayer);
 
         ball = new Ball(this);
 
         wallBottom = new Wall(32, this);
-        wallTop = new Wall(Constants.FULL_SCREEN_HEIGHT - 32, this);
+        wallTop = new Wall(FULL_SCREEN_HEIGHT - 32, this);
 
         GameContactListener gameContactListener = new GameContactListener(this);
 
@@ -130,17 +130,13 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void setGameOverScreen() {
-        if (player.getScore() > 4){
 
+        if (player.getScore() > 4)
             game.setScreen(new MainMenuScreen(camera, true, true));
-            dispose();
-        }
 
-        if (enemyPlayer.getScore() > 4){
 
+        else if (enemyPlayer.getScore() > 4)
             game.setScreen(new MainMenuScreen(camera, false, true));
-            dispose();
-        }
     }
 
 
@@ -193,10 +189,9 @@ public class GameScreen extends ScreenAdapter {
 
     private void drawScoreNumbers(SpriteBatch batch, int scoreNumber, float x, float y, float width, float heigth){
 
-        if (scoreNumber < 10){
-
+        if (scoreNumber < 10)
             batch.draw(scoreNumbers[scoreNumber], x, y, width, heigth);
-        }
+
         //Aqui manejare poder imprimir numeros mayores de 10
         else {
 
@@ -208,6 +203,10 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
+    @Override
+    public void hide() {
+        dispose();
+    }
 
     @Override
     public void dispose() {
